@@ -1,0 +1,13 @@
+[{
+  "caption": "Css Order",
+  "children": [{
+    "caption": "Run Cssorder",
+    "command": "css_order"
+  }, {
+    "caption": "Set Cssorder Config",
+    "command": "css_order_set_cssorder_config"
+  }, {
+    "caption": "Set Keyboard Shortcuts",
+    "command": "css_order_set_keyboard_shortcuts"
+  }]
+}]

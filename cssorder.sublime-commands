@@ -1,0 +1,10 @@
+[{
+  "caption": "CssOrder",
+  "command": "css_order"
+}, {
+  "caption": "CssOrder: Set Cssorder Config",
+  "command": "css_order_set_cssorder_config"
+},  {
+  "caption": "CssOrder: Set Keyboard Shortcuts",
+  "command": "css_order_set_keyboard_shortcuts"
+}]
