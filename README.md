@@ -1,4 +1,4 @@
-tatCssTidy
+stCssOrder
 ==========
 
-Alloyteam团队代码规范自动化整理 sublime插件
+Alloyteam团队代码规范自动化整理 sublime text插件
