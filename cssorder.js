@@ -52,7 +52,7 @@ function preHandleSrc (cssSrc) {
   cssSrc = cssSrc.replace(/(^|[^:|'|"|\(])\/\/.+?(?=\n|\r|$)/g, function(match){
 
       // Handle compressive file
-      if (match.indexOf('{') === -1 || match.indexOf('}') === -1) {
+      if (match.indexOf('{') === -1 || match.indexOf('}') === -1 || match.indexOf(':') === -1) {
           var targetMatch;
 
           //handle first line

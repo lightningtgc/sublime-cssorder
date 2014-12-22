@@ -9,11 +9,10 @@ from subprocess import Popen, PIPE
 
 PLUGIN_FOLDER = os.path.dirname(os.path.realpath(__file__))
 KEYMAP_FILE = "Default ($PLATFORM).sublime-keymap"
-SETTINGS_FILE = 'cssorder.sublime-settings'
-SETTINGS_NAME = 'cssorder'
 SETTINGS_PATH = 'cssorder.sublime-settings'
-CONFIG_RULES_NAME = 'config'
 CONFIG_ISSAVE_NAME = 'format_on_save'
+CONFIG_RULES_NAME = 'config'
+SETTINGS_NAME = 'cssorder'
 COMMAND_NAME = 'css_order'
 
 # monkeypatch `Region` to be iterable
@@ -142,9 +141,9 @@ class PluginUtils:
         return settings
     @staticmethod
     def open_sublime_settings(window):
-        window.open_file(PLUGIN_FOLDER + "/" + SETTINGS_FILE)
+        window.open_file( os.path.join(PLUGIN_FOLDER, SETTINGS_PATH) )
 
     @staticmethod
     def open_sublime_keymap(window, platform):
-        window.open_file(PLUGIN_FOLDER + "/" + KEYMAP_FILE.replace("$PLATFORM", platform))
+        window.open_file( os.path.join( PLUGIN_FOLDER, KEYMAP_FILE.replace("$PLATFORM", platform) ) )
 
