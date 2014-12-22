@@ -1,4 +1,4 @@
 [{
-  "keys": ["ctrl+shift+c"], 
+  "keys": ["ctrl+shift+o"], 
   "command": "css_order"
 }]
