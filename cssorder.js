@@ -58,7 +58,7 @@ function preHandleSrc (cssSrc) {
           //handle first line
           if (match.charAt(0) !== '/' ) {
               // remove first string and / and \ 
-              targetMatch = match.substr(1).replace(/\\|\//g, '');;
+              targetMatch = match.substr(1).replace(/\\|\//g, '');
               return match.charAt(0) + '/*' + targetMatch + '*/';
           } else {
               targetMatch = match.replace(/\\|\//g, '');

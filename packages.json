@@ -1,0 +1,19 @@
+{
+     "schema_version": "3.0.0",
+     "packages": [{
+       "name": "cssorder",
+       "description": "CSS coding style formatter tool",
+       "author": "gctang",
+       "details": "https://github.com/lightningtgc/sublime-cssorder",
+       "homepage": "https://github.com/lightningtgc/sublime-cssorder",
+       "releases": [{
+            "sublime_text": "*",
+            "version": "0.2.0",
+            "date": "2014-12-22 13:30:41",
+            "url": "https://github.com/lightningtgc/sublime-cssorder/archive/master.zip"
+
+       
+       }]
+      }]
+}
+
