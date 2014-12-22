@@ -2,7 +2,7 @@
 
 > CSSOrder is a css style formatter for Tencent Alloyteam
 
-> Base on Node.js
+> Required Node.js
 
 ## Intro
 
