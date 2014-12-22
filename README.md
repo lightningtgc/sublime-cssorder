@@ -26,4 +26,9 @@ or right click the content and select "Run Cssorder".
 
 * It will automatically format when you saved the file,
 
-and you can close automatical format  by setting 'format_on_save' to false.
+ and you can close automatical format  by setting 'format_on_save' to false.
+ 
+## Release History
+
++ v0.2.0: Handle compressive file case.
++ v0.1.0: Release.
