@@ -16,7 +16,9 @@ Press <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>o</kbd> or right click the content a
 
 ## Custom configuration
 
-You can  write your own configuration by opening the "Tools" menu -'Css Order' -'Set Cssorder Config'.
+You can  write your own configuration by opening 
+
+ `Tools> Css Order> Set Cssorder Config` or right click the content and select 'Set Cssorder Config'
 
 It will automatically format when you saved the file,
 
