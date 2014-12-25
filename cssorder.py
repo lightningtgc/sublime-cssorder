@@ -51,6 +51,7 @@ class CssOrderCommand(sublime_plugin.TextCommand):
                 stdout=PIPE, stdin=PIPE, stderr=PIPE,
                 env=self.get_env(), shell=self.is_windows())
         except OSError:
+            sublime.error_message("CSSOrder: Couldn't find Node.js. Please make sure you have install it.")
             raise Exception("Couldn't find Node.js. Make sure it's in your " +
                             '$PATH by running `node -v` in your command-line.')
         stdout, stderr = p.communicate(input=css.encode('utf-8'))
