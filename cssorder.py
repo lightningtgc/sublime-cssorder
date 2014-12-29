@@ -1,7 +1,7 @@
 # coding: utf-8
 
-import json
 import os
+import json
 import platform
 import sublime
 import sublime_plugin
@@ -86,7 +86,7 @@ class CssOrderCommand(sublime_plugin.TextCommand):
         if self.is_less():
             return 'less'
         if self.is_unsaved_buffer_without_syntax():
-            return 'css'
+            return False
         return False
 
     def has_selection(self):
@@ -112,10 +112,12 @@ class CssOrderCommand(sublime_plugin.TextCommand):
         return self.view.scope_name(0).startswith('source.css')
 
     def is_scss(self):
-        return self.view.scope_name(0).startswith('source.scss')
+
+        # fix scope_name can't distinguish file type 
+        return self.view.file_name().endswith('.scss')
 
     def is_less(self):
-        return self.view.scope_name(0).startswith('source.less')
+        return self.view.file_name().endswith('.less')
 
 class CssOrderEventListeners(sublime_plugin.EventListener):
     @staticmethod
