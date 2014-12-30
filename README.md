@@ -14,7 +14,7 @@ It can handle some special case like  'base64 url', 'single comment // ' and so 
 
 Press <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>o</kbd> 
 
-or right click the content and select "Run Cssorder".
+or `right click` the content and select `Run Cssorder`.
 
 ## Custom configuration
 
@@ -22,14 +22,17 @@ or right click the content and select "Run Cssorder".
 
  `Tools> Css Order> Set Cssorder Config` 
  
- or right click the content and select 'Set Cssorder Config'
+ or `right click` the content and select `Set Cssorder Config`
 
 * It will automatically format when you saved the file,
 
- and you can close automatical format  by setting `format_on_save` to `false` in `Set Cssorder Config`.
+ and you can close automatical format  by 
+ 
+ setting `format_on_save` to `false` in `Set Cssorder Config`.
  
 ## Release History
 
-+ v0.2.1: Fix bug and submitting to Sublime Package Control
++ v0.3.0: Support Sass and Less.
++ v0.2.1: Fix bug and submitting to Sublime Package Control.
 + v0.2.0: Handle compressive file case.
 + v0.1.0: Release.
