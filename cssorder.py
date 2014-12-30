@@ -2,8 +2,9 @@
 
 import os
 import json
-import platform
 import sublime
+import platform
+import merge_utils
 import sublime_plugin
 from subprocess import Popen, PIPE
 
@@ -29,20 +30,35 @@ class CssOrderCommand(sublime_plugin.TextCommand):
 
         config = self.get_config()
 
+
         if not self.has_selection():
             region = sublime.Region(0, self.view.size())
             originalBuffer = self.view.substr(region)
-            combed = self.comb(originalBuffer, syntax, config)
-            if combed:
-                self.view.replace(edit, region, combed)
+            destFile = self.comb(originalBuffer, syntax, config)
+            if destFile:
+                self.replace_whole_css(edit, destFile)
             return
+
+        # if user select some block
         for region in self.view.sel():
             if region.empty():
                 continue
+
             originalBuffer = self.view.substr(region)
-            combed = self.comb(originalBuffer, syntax, config)
-            if combed:
-                self.view.replace(edit, region, combed)
+            destFile = self.comb(originalBuffer, syntax, config)
+            if destFile:
+                self.view.replace(edit, region, destFile)
+
+
+    def replace_whole_css(self, edit, destFile):
+        view = self.view
+        wholeRegion = sublime.Region(0, view.size())
+        code = view.substr(wholeRegion)
+
+        # Avoid replace file will go back to top
+        _, err = merge_utils.merge_code(view, edit, code, destFile)
+        if err:
+            sublime.error_message("CSSOrder: Merge failure: '%s'" % err)
 
     def comb(self, css, syntax, config):
         config = json.dumps(config)
