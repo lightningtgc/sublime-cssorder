@@ -1,27 +1,56 @@
 # coding: utf-8
 
 import os
+import sys
 import json
 import sublime
 import platform
-import merge_utils
 import sublime_plugin
 from subprocess import Popen, PIPE
 
-PLUGIN_FOLDER = os.path.dirname(os.path.realpath(__file__))
-KEYMAP_FILE = "Default ($PLATFORM).sublime-keymap"
-SETTINGS_PATH = 'cssorder.sublime-settings'
-CONFIG_ISSAVE_NAME = 'format_on_save'
-CONFIG_RULES_NAME = 'config'
-SETTINGS_NAME = 'cssorder'
 COMMAND_NAME = 'css_order'
+SETTINGS_NAME = 'cssorder'
+CONFIG_RULES_NAME = 'config'
+CONFIG_ISSAVE_NAME = 'format_on_save'
+SETTINGS_PATH = 'cssorder.sublime-settings'
+KEYMAP_FILE = "Default ($PLATFORM).sublime-keymap"
+PLUGIN_FOLDER = os.path.dirname(os.path.realpath(__file__))
+
+is_py2k = sys.version_info < (3, 0)
+libs_path = os.path.join(PLUGIN_FOLDER, "libs")
+order_path = os.path.join(sublime.packages_path(), PLUGIN_FOLDER, 'cssorder.js')
+
+# Python 2.x on Windows can't properly import from non-ASCII paths, so
+# this code added the DOC 8.3 version of the lib folder to the path in
+# case the user's username includes non-ASCII characters
+def add_lib_path(lib_path):
+  def _try_get_short_path(path):
+    path = os.path.normpath(path)
+    if is_py2k and os.name == 'nt' and isinstance(path, unicode):
+      try:
+        import locale
+        path = path.encode(locale.getpreferredencoding())
+      except:
+        from ctypes import windll, create_unicode_buffer
+        buf = create_unicode_buffer(512)
+        if windll.kernel32.GetShortPathNameW(path, buf, len(buf)):
+          path = buf.value
+    return path
+  lib_path = _try_get_short_path(lib_path)
+  if lib_path not in sys.path:
+    sys.path.append(lib_path)
+
+# crazyness to get jsbeautifier.unpackers to actually import
+# with sublime's weird hackery of the path and module loading
+add_lib_path(libs_path)
+
+# get merge utils
+import merge_utils
 
 # monkeypatch `Region` to be iterable
 sublime.Region.totuple = lambda self: (self.a, self.b)
 sublime.Region.__iter__ = lambda self: self.totuple().__iter__()
 
-COMB_PATH = os.path.join(sublime.packages_path(), os.path.dirname(os.path.realpath(__file__)), 'cssorder.js')
-  
 class CssOrderCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         syntax = self.get_syntax()
@@ -29,7 +58,6 @@ class CssOrderCommand(sublime_plugin.TextCommand):
             return
 
         config = self.get_config()
-
 
         if not self.has_selection():
             region = sublime.Region(0, self.view.size())
@@ -49,7 +77,6 @@ class CssOrderCommand(sublime_plugin.TextCommand):
             if destFile:
                 self.view.replace(edit, region, destFile)
 
-
     def replace_whole_css(self, edit, destFile):
         view = self.view
         wholeRegion = sublime.Region(0, view.size())
@@ -63,7 +90,7 @@ class CssOrderCommand(sublime_plugin.TextCommand):
     def comb(self, css, syntax, config):
         config = json.dumps(config)
         try:
-            p = Popen(['node', COMB_PATH] + [syntax, config],
+            p = Popen(['node', order_path] + [syntax, config],
                 stdout=PIPE, stdin=PIPE, stderr=PIPE,
                 env=self.get_env(), shell=self.is_windows())
         except OSError:
@@ -128,9 +155,8 @@ class CssOrderCommand(sublime_plugin.TextCommand):
         return self.view.scope_name(0).startswith('source.css')
 
     def is_scss(self):
-
         # fix scope_name can't distinguish file type 
-        return self.view.file_name().endswith('.scss')
+        return self.view.file_name().endswith('.scss') or self.view.file_name().endswith('.sass')
 
     def is_less(self):
         return self.view.file_name().endswith('.less')

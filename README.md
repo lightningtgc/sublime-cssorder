@@ -32,6 +32,7 @@ or `right click` the content and select `Run Cssorder`.
  
 ## Release History
 
++ v0.3.1: Fix libs dependence.
 + v0.3.0: Support Sass and Less.
 + v0.2.1: Fix bug and submitting to Sublime Package Control.
 + v0.2.0: Handle compressive file case.
