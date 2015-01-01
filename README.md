@@ -12,7 +12,7 @@ It can handle some special case like  'base64 url', 'single comment // ' and so 
 
 ## Install
 
-1. Install  [Package Control](http://wbond.net/sublime_packages/package_control):
+1. Install  [Package Control](https://packagecontrol.io/installation):
 
 2. Press `Ctrl + Shift + p` and then input `install`.
 
