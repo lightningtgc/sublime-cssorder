@@ -14,9 +14,9 @@ It can handle some special case like  'base64 url', 'single comment // ' and so 
 
 1. Install  [Package Control](https://packagecontrol.io/installation):
 
-2. Press `Ctrl + Shift + p` and then input `install`.
+2. Press <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>p</kbd> , then input `install` and press <kbd>Enter</kbd> .
 
- After that input `CSSOrder` to find the plugin and  press `Enter` to install it.
+ After that input `CSSOrder` to find the plugin and  press <kbd>Enter</kbd> to install it.
 
 Manually:
 
