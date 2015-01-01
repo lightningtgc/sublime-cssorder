@@ -10,6 +10,18 @@ CSSOrder is a css coding style formatter with [Alloyteam Css Style](http://alloy
 
 It can handle some special case like  'base64 url', 'single comment // ' and so on in CSS files.
 
+## Install
+
+1. Install  [Package Control](http://wbond.net/sublime_packages/package_control):
+
+2. Press `Ctrl + Shift + p` and then input `install`.
+
+ After that input `CSSOrder` to find the plugin and  press `Enter` to install it.
+
+Manually:
+
+Clone or [download](https://github.com/lightningtgc/sublime-cssorder/archive/master.zip) git repo into your packages folder (in SublimeText, find Browse Packages... menu item to open this folder)
+
 ## Usage
 
 Press <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>o</kbd> 
