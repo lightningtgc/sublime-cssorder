@@ -12,7 +12,9 @@ It can handle some special case like  'base64 url', 'single comment // ' and so 
 
 ## Install
 
-1. Install  [Package Control](https://packagecontrol.io/installation):
+0. Install [Node.js](http://nodejs.org/) ( if you don't install it before ).
+
+1. Install  [Package Control](https://packagecontrol.io/installation).
 
 2. Press <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>p</kbd> , then input `install` and press <kbd>Enter</kbd> .
 
