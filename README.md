@@ -41,9 +41,8 @@ Make CSS code become the following coding style like:
     -webkit-background-clip: padding-box;
        -moz-background-clip: padding-box;
             background-clip: padding-box;
-
-    filter: progid:dximagetransform.Microsoft.gradient(startColorstr="#e6529dda", endColorstr="#e6529dda", GradientType=0)\9;
 }
+
 ```
 
 ## Install
