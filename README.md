@@ -6,16 +6,16 @@
 
 ## Intro
 
-CSSOrder is a css coding style formatter with [Alloyteam Css Style](http://alloyteam.github.io/code-guide/#css)
+CSSOrder is a css coding style formatter with [Alloyteam CSS Style](http://alloyteam.github.io/code-guide/#css)
 
 It can handle some special case like  'base64 url', 'single comment // ' and so on in CSS files.
 
 ## Effect
 
-Make CSS code become the following coding style like:
+Make CSS code become the following coding style:
 
 ```css
-/* example */
+/* Final CSS code */
 .some-style,
 .same-style {
     position: relative;
@@ -73,6 +73,11 @@ or `right click` the content and select `Run Cssorder`.
  
  or `right click` the content and select `Set Cssorder Config`
 
+* `order_config` is using for some special case (like add newline for every
+  block).
+ 
+ `comb_config` is using for the configuration of CSSComb.
+
 * It will automatically format when you saved the file,
 
  and you can close automatical format  by 
@@ -81,6 +86,7 @@ or `right click` the content and select `Run Cssorder`.
  
 ## Release History
 
++ v0.4.0: Add custom config to handle special case.
 + v0.3.1: Fix libs dependence.
 + v0.3.0: Support Sass and Less.
 + v0.2.1: Fix bug and submitting to Sublime Package Control.

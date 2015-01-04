@@ -8,7 +8,7 @@
 
     // CSSOrder custom config options 
     "order_config": {
-        // Every block add newline
+        // Every block add newline,and remove unnecessary newline
         "block-newline": false
     },
 
