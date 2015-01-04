@@ -20,31 +20,47 @@ is_py2k = sys.version_info < (3, 0)
 libs_path = os.path.join(PLUGIN_FOLDER, "libs")
 order_path = os.path.join(sublime.packages_path(), PLUGIN_FOLDER, 'cssorder.js')
 
-# Python 2.x on Windows can't properly import from non-ASCII paths, so
-# this code added the DOC 8.3 version of the lib folder to the path in
-# case the user's username includes non-ASCII characters
-def add_lib_path(lib_path):
-  def _try_get_short_path(path):
-    path = os.path.normpath(path)
-    if is_py2k and os.name == 'nt' and isinstance(path, unicode):
-      try:
-        import locale
-        path = path.encode(locale.getpreferredencoding())
-      except:
-        from ctypes import windll, create_unicode_buffer
-        buf = create_unicode_buffer(512)
-        if windll.kernel32.GetShortPathNameW(path, buf, len(buf)):
-          path = buf.value
-    return path
-  lib_path = _try_get_short_path(lib_path)
-  if lib_path not in sys.path:
-    sys.path.append(lib_path)
+# common utils
+class PluginUtils:
+    # Python 2.x on Windows can't properly import from non-ASCII paths, so
+    # this code added the DOC 8.3 version of the lib folder to the path in
+    # case the user's username includes non-ASCII characters
+    @staticmethod
+    def add_lib_path(lib_path):
+      def _get_short_path(path):
+        path = os.path.normpath(path)
+        if is_py2k and os.name == 'nt' and isinstance(path, unicode):
+          try:
+            import locale
+            path = path.encode(locale.getpreferredencoding())
+          except:
+            from ctypes import windll, create_unicode_buffer
+            buf = create_unicode_buffer(512)
+            if windll.kernel32.GetShortPathNameW(path, buf, len(buf)):
+              path = buf.value
+        return path
+      lib_path = _get_short_path(lib_path)
+      if lib_path not in sys.path:
+        sys.path.append(lib_path)
+
+    @staticmethod
+    def get_settings(key):
+        settings = sublime.load_settings(SETTINGS_PATH).get(key)
+        return settings 
+
+    @staticmethod
+    def open_sublime_settings(window):
+        window.open_file( os.path.join(PLUGIN_FOLDER, SETTINGS_PATH) )
+
+    @staticmethod
+    def open_sublime_keymap(window, platform):
+        window.open_file( os.path.join( PLUGIN_FOLDER, KEYMAP_FILE.replace("$PLATFORM", platform) ) )
 
 # crazyness to get jsbeautifier.unpackers to actually import
 # with sublime's weird hackery of the path and module loading
-add_lib_path(libs_path)
+PluginUtils.add_lib_path(libs_path)
 
-# get merge utils
+# get merge for diff
 import merge_utils
 
 # monkeypatch `Region` to be iterable
@@ -178,17 +194,4 @@ class CssOrderSetKeyboardShortcutsCommand(sublime_plugin.TextCommand):
       "linux": "Linux",
       "osx": "OSX"
     }.get(sublime.platform()))
-
-class PluginUtils:
-    @staticmethod
-    def get_settings(key):
-        settings = sublime.load_settings(SETTINGS_PATH).get(key)
-        return settings
-    @staticmethod
-    def open_sublime_settings(window):
-        window.open_file( os.path.join(PLUGIN_FOLDER, SETTINGS_PATH) )
-
-    @staticmethod
-    def open_sublime_keymap(window, platform):
-        window.open_file( os.path.join( PLUGIN_FOLDER, KEYMAP_FILE.replace("$PLATFORM", platform) ) )
 
