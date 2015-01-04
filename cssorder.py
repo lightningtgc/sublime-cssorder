@@ -10,8 +10,9 @@ from subprocess import Popen, PIPE
 
 COMMAND_NAME = 'css_order'
 SETTINGS_NAME = 'cssorder'
-CONFIG_RULES_NAME = 'config'
-CONFIG_ISSAVE_NAME = 'format_on_save'
+CONFIG_NAME_COMB = 'comb_config'
+CONFIG_NAME_ORDER = 'order_config'
+CONFIG_NAME_ISSAVE = 'format_on_save'
 SETTINGS_PATH = 'cssorder.sublime-settings'
 KEYMAP_FILE = "Default ($PLATFORM).sublime-keymap"
 PLUGIN_FOLDER = os.path.dirname(os.path.realpath(__file__))
@@ -73,12 +74,13 @@ class CssOrderCommand(sublime_plugin.TextCommand):
         if not syntax:
             return
 
-        config = self.get_config()
+        combConfig = self.get_config(CONFIG_NAME_COMB)
+        orderConfig = self.get_config(CONFIG_NAME_ORDER)
 
         if not self.has_selection():
             region = sublime.Region(0, self.view.size())
             originalBuffer = self.view.substr(region)
-            destFile = self.comb(originalBuffer, syntax, config)
+            destFile = self.comb(originalBuffer, syntax, combConfig, orderConfig)
             if destFile:
                 self.replace_whole_css(edit, destFile)
             return
@@ -89,7 +91,7 @@ class CssOrderCommand(sublime_plugin.TextCommand):
                 continue
 
             originalBuffer = self.view.substr(region)
-            destFile = self.comb(originalBuffer, syntax, config)
+            destFile = self.comb(originalBuffer, syntax, combConfig, orderConfig)
             if destFile:
                 self.view.replace(edit, region, destFile)
 
@@ -103,10 +105,11 @@ class CssOrderCommand(sublime_plugin.TextCommand):
         if err:
             sublime.error_message("CSSOrder: Merge failure: '%s'" % err)
 
-    def comb(self, css, syntax, config):
-        config = json.dumps(config)
+    def comb(self, css, syntax, combConfig, orderConfig):
+        combConfig = json.dumps(combConfig)
+        orderConfig = json.dumps(orderConfig)
         try:
-            p = Popen(['node', order_path] + [syntax, config],
+            p = Popen(['node', order_path] + [syntax, combConfig, orderConfig],
                 stdout=PIPE, stdin=PIPE, stderr=PIPE,
                 env=self.get_env(), shell=self.is_windows())
         except OSError:
@@ -132,9 +135,9 @@ class CssOrderCommand(sublime_plugin.TextCommand):
             settings = sublime.load_settings(SETTINGS_PATH)
         return settings
 
-    def get_config(self):
+    def get_config(self, configName):
         settings = self.get_settings()
-        config = settings.get(CONFIG_RULES_NAME)
+        config = settings.get(configName)
         return config
 
     def get_syntax(self):
@@ -180,7 +183,7 @@ class CssOrderCommand(sublime_plugin.TextCommand):
 class CssOrderEventListeners(sublime_plugin.EventListener):
     @staticmethod
     def on_pre_save(view):
-        if PluginUtils.get_settings(CONFIG_ISSAVE_NAME):
+        if PluginUtils.get_settings(CONFIG_NAME_ISSAVE):
             view.run_command(COMMAND_NAME) 
 
 class CssOrderSetCssorderConfigCommand(sublime_plugin.TextCommand):

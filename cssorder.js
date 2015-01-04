@@ -90,6 +90,30 @@ function afterHandleSrc (content) {
     return content;
 }
 
+// Deal with cssorder custom config 
+function handleOrderCustom (content) {
+    var orderConfig;
+    try {
+        orderConfig = JSON.parse(process.argv[4]);
+    } catch (e) {
+        orderConfig = null;
+    }
+
+    // handle options
+    if (orderConfig) { 
+        //Every block add newline
+        if(orderConfig["block-newline"]){
+            content = content.replace(/\}[\s\S]+?\{/g, function(match){
+                // remove unnecessary newline,keep single newline
+                match = match.replace(/\n(?=\n)/g, '');
+                match = match.replace(/\}/, '');
+                return '}\n'+ match;
+            });
+        }
+    }
+    return content;
+}
+
 process.stdin.on('end', function () {
     var Comb = require('./node_modules/csscomb/lib/csscomb'),
     comb = new Comb(),
@@ -97,18 +121,24 @@ process.stdin.on('end', function () {
     config, combed;
 
     try {
-    config = JSON.parse(process.argv[3]);
+        config = JSON.parse(process.argv[3]);
     } catch (e) {
-    config = null;
+        config = null;
     }
 
-    config = Comb.getCustomConfig() ||
-    config ||
-    Comb.getConfig('csscomb');
-
+    config = config ||
+             Comb.getCustomConfig() ||  
+             Comb.getConfig('csscomb');
+    // Handle some special case
     str = preHandleSrc(str);
     combed = comb.configure(config).processString(str, {syntax: syntax});
     combed = afterHandleSrc(combed);
+    // Handle cssorder custom config 
+    try {
+        combed = handleOrderCustom(combed);
+    } catch (e) {
+        throw new Error('CSSOrder custom config error');
+    }
     process.stdout.write(combed);
 });
 

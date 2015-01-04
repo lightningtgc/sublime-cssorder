@@ -1,12 +1,21 @@
 {
     // More detail: https://github.com/lightningtgc/sublime-cssorder
 
+
     // Automatically format when a file is saved.
     "format_on_save": true,
 
-    // AlloyTeam CSS coding Style options:
 
-    "config": {
+    // CSSOrder custom config options 
+    "order_config": {
+        // Every block add newline
+        "block-newline": false
+    },
+
+
+
+    // CSS coding Style options for csscomb
+    "comb_config": {
 
         // Remove all rulesets that contain nothing but spaces.
         "remove-empty-rulesets": true,
