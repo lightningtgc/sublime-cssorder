@@ -65,7 +65,7 @@ function preHandleSrc (cssSrc) {
               return '/*' + targetMatch + '*/';
           }
       } else {
-          throw new Error('There maybe some single comment // in this file.');
+          throw new Error('There maybe some illegal single comment // in this file.');
       }
   });
   return cssSrc;
@@ -82,7 +82,11 @@ function afterHandleSrc (content) {
     content = content.replace(/#tidy6#/g, '//');
 
     // handle compressive css file 
-    content = content.replace(/(\}|\*\/)(?!\r|\n)/g, function(match){
+    content = content.replace(/(\}|\*\/)(?!\r|\n).*/g, function(match){
+        // Deal with multiple line comment include block {}
+        if (match.indexOf('*/') > 0 && match.indexOf('/*') === -1) {
+          return match;
+        }
         // \n will translate to \r\n in windows?
         return match + '\n';
     });
@@ -103,11 +107,22 @@ function handleOrderCustom (content) {
     if (orderConfig) { 
         //Every block add newline
         if(orderConfig["block-newline"]){
-            content = content.replace(/\}[\s\S]+?\{/g, function(match){
-                // remove unnecessary newline,keep single newline
+            // Deal with multiple comment include css block {}
+            content = content.replace(/\}[\s\S][^\}+\*\/]+?\{/g, function(match){
+
+              // remove unnecessary newline,keep single newline
                 match = match.replace(/\n(?=\n)/g, '');
                 match = match.replace(/\}/, '');
-                return '}\n'+ match;
+                return '}\n' + match;
+            });
+
+            // add \n between } and /*
+            // don't handle same line
+            content = content.replace(/\}\n[\s\S][^\}+\{+\*\/]+?\/\*/g, function(match){
+                // remove unnecessary newline,keep single newline
+                match = match.replace(/\n/g, '');
+                match = match.replace(/\}/, '');
+                return '}\n\n' + match;
             });
         }
     }
