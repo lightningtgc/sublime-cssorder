@@ -1,12 +1,12 @@
 #Sublime CSSOrder
 
-> CSSOrder is a sublime plugin for CSS file formatting 
+> CSSOrder is a sublime text plugin for CSS file formatting. 
 
 > Required Node.js
 
 ## Intro
 
-CSSOrder is a css coding style formatter with [CSS Style](http://alloyteam.github.io/code-guide/#css)
+CSSOrder is a css coding style formatter with [Tencent CSS Style](http://alloyteam.github.io/code-guide/#css)
 
 It can handle some special case like  'base64 url', 'single comment // ' and so on in CSS files.
 
