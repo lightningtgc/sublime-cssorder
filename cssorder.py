@@ -141,12 +141,12 @@ class CssOrderCommand(sublime_plugin.TextCommand):
         return config
 
     def get_syntax(self):
-        if self.is_css():
-            return 'css'
         if self.is_scss():
             return 'scss'
         if self.is_less():
             return 'less'
+        if self.is_css():
+            return 'css'
         if self.is_unsaved_buffer_without_syntax():
             return False
         return False
