@@ -14,14 +14,14 @@ function preHandleSrc (cssSrc) {
    * fix like: .a{ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6529dda', endColorstr='#e6529dda', GradientType=0)\9;}
    * which has two semicolon( : ) will cause parse error.
    */
-  cssSrc = cssSrc.replace(/progid(\s)?:(\s)?/g, '#tidy1#');
+  cssSrc = cssSrc.replace(/progid(\s)?:(\s)?/g, '#order1#');
 
   /*
    * fix absolute url path like: 
    * .a { background: url("http://www.qq.com/one.png");} 
    *
    */
-  cssSrc = cssSrc.replace(/:\/\//g, '#tidy2#');
+  cssSrc = cssSrc.replace(/:\/\//g, '#order2#');
 
   /*
    * fix base64 url like: 
@@ -29,9 +29,9 @@ function preHandleSrc (cssSrc) {
    *
    */
   cssSrc = cssSrc.replace(/data[\s\S]+?\)/g, function(match){
-      match = match.replace(/:/g, '#tidy3#');
-      match = match.replace(/;/g, '#tidy4#');
-      match = match.replace(/\//g, '#tidy5#');
+      match = match.replace(/:/g, '#order3#');
+      match = match.replace(/;/g, '#order4#');
+      match = match.replace(/\//g, '#order5#');
       return match;
   });
   /*
@@ -40,7 +40,7 @@ function preHandleSrc (cssSrc) {
    */
   cssSrc = cssSrc.replace(/\/\*[\s\S]+?\*\//g, function(match){
       // handle single comment //
-      match = match.replace(/\/\//g, '#tidy6#');
+      match = match.replace(/\/\//g, '#order6#');
       return  match;
   });
 
@@ -74,12 +74,12 @@ function preHandleSrc (cssSrc) {
 // after handle src, recover special string
 function afterHandleSrc (content) {
 
-    content = content.replace(/#tidy1#/g, 'progid:');
-    content = content.replace(/#tidy2#/g, '://');
-    content = content.replace(/#tidy3#/g, ':');
-    content = content.replace(/#tidy4#/g, ';');
-    content = content.replace(/#tidy5#/g, '/');
-    content = content.replace(/#tidy6#/g, '//');
+    content = content.replace(/#order1#/g, 'progid:');
+    content = content.replace(/#order2#/g, '://');
+    content = content.replace(/#order3#/g, ':');
+    content = content.replace(/#order4#/g, ';');
+    content = content.replace(/#order5#/g, '/');
+    content = content.replace(/#order6#/g, '//');
 
     // handle compressive css file 
     content = content.replace(/(\}|\*\/)(?!\r|\n).*/g, function(match){
